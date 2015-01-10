@@ -45,6 +45,8 @@
     <Compile Include="Configuration\Sections\OutputSection.cs" />
     <Compile Include="Configuration\Sections\SmtpSection.cs" />
     <Compile Include="Configuration\Reader\SmtpReader.cs" />
+    <Compile Include="Domain\MailingSettings.cs" />
+    <Compile Include="Domain\ScheduleSettings.cs" />
     <Compile Include="Domain\SmtpSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

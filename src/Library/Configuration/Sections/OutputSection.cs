@@ -9,13 +9,13 @@ namespace Config.Library.Configuration
     #region :: output section ::
 
     /// <summary>
-    /// Section handler that reads the content of the exposure configuration section. The exposure section defines the settings
-    /// for the 70-day exposure follow up visit notification emails 
+    /// Section handler that reads the content of the output configuration section. The output section defines the settings
+    /// for all notification emails 
     /// </summary>
     public class OutputSection : ConfigurationSection
     {
         /// <summary>
-        /// Get and set the base path for the files needed to setup or to attach to the notification email
+        /// Get and set the base path for the setup files and any attachments
         /// </summary>
         [ConfigurationProperty("path", DefaultValue = "", IsRequired = true)]
         public string Path
@@ -33,7 +33,7 @@ namespace Config.Library.Configuration
         }
 
         /// <summary>
-        /// Return the custom configuration collection containg a list of mailing outputs
+        /// Return the custom configuration collection containing a list of mailing elements
         /// </summary>
         /// <remarks>
         /// We do not require an element to hold the collection items. Instead, we add the individual mailing elements directly
@@ -86,12 +86,12 @@ namespace Config.Library.Configuration
 
     #endregion
 
-    #region :: mailing element ::
+    #region :: mailing elements ::
 
     /// <summary>
     /// Collection that contains instances of the mailing configuration element
     /// </summary>
-    [ConfigurationCollection(typeof(MailingConfiguration))]
+    [ConfigurationCollection(typeof(MailingElement))]
     public class MailingCollection : ConfigurationElementCollection
     {
         #region :: properties ::
@@ -101,9 +101,9 @@ namespace Config.Library.Configuration
         /// </summary>
         /// <param name="key">The name that identifies the output collection</param>
         /// <returns>The output configuration element matching the specified name</returns>
-        public new MailingConfiguration this[string key]
+        public new MailingElement this[string key]
         {
-            get { return base.BaseGet(key) as MailingConfiguration; }
+            get { return base.BaseGet(key) as MailingElement; }
         }
 
         #endregion
@@ -135,7 +135,7 @@ namespace Config.Library.Configuration
         /// <returns>The new mailing configuration element</returns>
         protected override ConfigurationElement CreateNewElement()
         {
-            return new MailingConfiguration();
+            return new MailingElement();
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Config.Library.Configuration
         /// <returns>The key for the configuration element</returns>
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((MailingConfiguration)element).Name;
+            return ((MailingElement)element).Name;
         }
 
         #endregion
@@ -154,7 +154,7 @@ namespace Config.Library.Configuration
     /// <summary>
     /// Represent the mailing configuration element in the output custom configuration section
     /// </summary>
-    public class MailingConfiguration : ConfigurationElement
+    public class MailingElement : ConfigurationElement
     {
         [ConfigurationProperty("name", IsKey = true, IsRequired = true)]
         public string Name
@@ -178,6 +178,20 @@ namespace Config.Library.Configuration
         public ScheduleElement Schedule
         {
             get { return (ScheduleElement)base["schedule"]; }
+        }
+
+        /// <summary>
+        /// Return the custom configuration collection containing a list of attachment elements
+        /// </summary>
+        /// <remarks>
+        /// We do not require an element to hold the collection items. Instead, we add the individual attachment elements directly
+        /// under the output node
+        /// </remarks>
+        [ConfigurationProperty("", IsRequired = true, IsKey = false, IsDefaultCollection = true)]
+        [ConfigurationCollection(typeof(AttachmentCollection))]
+        public AttachmentCollection Attachments
+        {
+            get { return (AttachmentCollection)(base[""]); }
         }
     }
 
@@ -285,36 +299,12 @@ namespace Config.Library.Configuration
 
     #endregion
 
-
-
-    /// <summary>
-    /// Read the values of the attachment element which defines the attachment to be sent out with a notification email
-    /// </summary>
-    public class AttachmentConfiguration : ConfigurationElement
-    {
-        /// <summary>
-        /// Return the name of the attachment
-        /// </summary>
-        [ConfigurationProperty("name", IsRequired = true, IsKey = true)]
-        public string Name
-        {
-            get { return (string)this["name"]; }
-        }
-
-        /// <summary>
-        /// Return the file name of the attachment to be attached
-        /// </summary>
-        [ConfigurationProperty("file", IsRequired = true)]
-        public string File
-        {
-            get { return (string)this["file"]; }
-        }
-    }
+    #region :: attachment elements ::
 
     /// <summary>
-    /// Collection that contains AttachmentConfiguration instances 
+    /// Collection that contains AttachmentElement instances 
     /// </summary>
-    [ConfigurationCollection(typeof(AttachmentConfiguration))]
+    [ConfigurationCollection(typeof(AttachmentElement))]
     public class AttachmentCollection : ConfigurationElementCollection
     {
         #region :: properties ::
@@ -324,9 +314,9 @@ namespace Config.Library.Configuration
         /// </summary>
         /// <param name="key">The file name that identifies the attachment element</param>
         /// <returns>The attachment configuration element matching the specified key</returns>
-        public new AttachmentConfiguration this[string key]
+        public new AttachmentElement this[string key]
         {
-            get { return base.BaseGet(key) as AttachmentConfiguration; }
+            get { return base.BaseGet(key) as AttachmentElement; }
         }
 
         #endregion
@@ -358,7 +348,7 @@ namespace Config.Library.Configuration
         /// <returns>The new attachment configuration element</returns>
         protected override ConfigurationElement CreateNewElement()
         {
-            return new AttachmentConfiguration();
+            return new AttachmentElement();
         }
 
         /// <summary>
@@ -368,9 +358,35 @@ namespace Config.Library.Configuration
         /// <returns>The key for the configuration element</returns>
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((AttachmentConfiguration)element).Name;
+            return ((AttachmentElement)element).Name;
         }
 
         #endregion
     }
+
+    /// <summary>
+    /// Represent the attachment configuration element in the output custom configuration section
+    /// </summary>
+    public class AttachmentElement : ConfigurationElement
+    {
+        /// <summary>
+        /// Return the name of the attachment
+        /// </summary>
+        [ConfigurationProperty("name", IsRequired = true, IsKey = true)]
+        public string Name
+        {
+            get { return (string)this["name"]; }
+        }
+
+        /// <summary>
+        /// Return the file name of the attachment to be attached
+        /// </summary>
+        [ConfigurationProperty("file", IsRequired = true)]
+        public string File
+        {
+            get { return (string)this["file"]; }
+        }
+    }
+
+    #endregion
 }

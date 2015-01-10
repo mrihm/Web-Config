@@ -34,6 +34,11 @@ namespace Config.ConsoleApp
             Console.WriteLine("Immediately: {0}", ebola.Schedule.Immediately);
             Console.WriteLine("Runtime: {0}\n", ebola.Schedule.Runtime);
 
+            foreach (AttachmentElement attachment in ebola.Attachments) {
+                Console.WriteLine("  Attachment\n  -------\n  Name: {0}", attachment.Name);
+                Console.WriteLine("  File: {0}\n", attachment.File);
+            }
+
             return;
 
             using (var container = new Container())
