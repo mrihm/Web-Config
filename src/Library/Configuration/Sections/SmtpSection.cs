@@ -27,6 +27,15 @@ namespace Config.Library.Configuration
         }
 
         /// <summary>
+        /// Return the configuration element that defines the notification mode for all emails
+        /// </summary>
+        [ConfigurationProperty("mode", IsRequired = true)]
+        public ModeElement Mode
+        {
+            get { return this["mode"] as ModeElement; }
+        }
+
+        /// <summary>
         /// Return the configuration configurationElement that holds the user authentication information if authentication is required
         /// </summary>
         [ConfigurationProperty("user", IsRequired = true)]

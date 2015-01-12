@@ -10,7 +10,7 @@ using Config.Library.Domain;
 
 namespace Config.Library.Configuration
 {
-    public class SmtpReader : ConfigurationReader<SmtpSection>, IConfigurationReader<SmtpSettings>
+    public class SmtpReader : ConfigurationReader<SmtpSection>, ISmtpConfigurationReader
     {
         /// <summary>
         /// Inject the smtp configuration section to be read into the reader
@@ -23,9 +23,9 @@ namespace Config.Library.Configuration
         /// <returns></returns>
         public SmtpSettings GetSettings()
         {
-            var settings = new SmtpSettings();
+            var settings = new SmtpSettings { Sender = new MailAddress(_configuration.From) };
 
-            settings.Sender = ExtractSender();
+            settings.Mode = ReadMode();
             settings.ReplyTo = ExtractReply();
             settings.Client = ExtractServer();
 
@@ -33,17 +33,18 @@ namespace Config.Library.Configuration
         }
 
         /// <summary>
-        /// Read the default email sender information and return a MailAddress object containing the email sender information
+        /// Extract the mailing mode information that indicates whether to send out test emails
         /// </summary>
-        /// <returns>A MailMessage object containing the sender information</returns>
-        private MailAddress ExtractSender()
+        /// <returns>A configuration object containing the mailing mode settings</returns>
+        private MailingMode ReadMode()
         {
-            MailAddress sender = null;
+            var mailingMode = new MailingMode { UseTest = _configuration.Mode.Test };
 
-            if (!String.IsNullOrWhiteSpace(_configuration.From)) 
-                sender = new MailAddress(_configuration.From);
+            if (mailingMode.UseTest) {
+                mailingMode.RedirectTo.AddRange(SplitAddresses(_configuration.Mode.Email));
+            }
 
-            return sender;
+            return mailingMode;
         }
 
         /// <summary>
@@ -52,13 +53,14 @@ namespace Config.Library.Configuration
         /// <returns>A MailMessage object containing the reply to recipient information</returns>
         private MailAddress ExtractReply()
         {
-            MailAddress replyTo = null;
+            if (String.IsNullOrEmpty(_configuration.ReplyTo))
+                return null;
 
-            var sender = _configuration.From;
-            var reply = _configuration.ReplyTo;
+            MailAddress replyTo = new MailAddress(_configuration.ReplyTo);
+            MailAddress sender = new MailAddress(_configuration.From);
 
-            if (!String.IsNullOrEmpty(reply) && (reply.CompareTo(sender) == 0)) {
-                replyTo = new MailAddress(reply);
+            if (replyTo.Address.Equals(sender.Address, StringComparison.InvariantCultureIgnoreCase)) {
+                replyTo = null;
             }
 
             return replyTo;

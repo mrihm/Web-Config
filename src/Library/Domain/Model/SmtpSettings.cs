@@ -18,6 +18,11 @@ namespace Config.Library.Domain
         /// <summary>
         /// Set and return the Replyto mail address object for the default email sender
         /// </summary>
-        public MailAddress ReplyTo { get; set; } 
+        public MailAddress ReplyTo { get; set; }
+
+        /// <summary>
+        /// Set and return the mailing mode which indicates whether to send out test emails
+        /// </summary>
+        public MailingMode Mode { get; set; }
     }
 }

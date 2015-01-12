@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "templates", "templates", "{
 		..\docs\files\ebola-tracking.xslt = ..\docs\files\ebola-tracking.xslt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Config.Test", "Tests\Config.Test.csproj", "{76C84A95-BF77-41EE-B71B-77B13630C191}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{EBBF1E0D-BB19-4EE7-9877-D8CAE091024D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBBF1E0D-BB19-4EE7-9877-D8CAE091024D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBBF1E0D-BB19-4EE7-9877-D8CAE091024D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76C84A95-BF77-41EE-B71B-77B13630C191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76C84A95-BF77-41EE-B71B-77B13630C191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76C84A95-BF77-41EE-B71B-77B13630C191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76C84A95-BF77-41EE-B71B-77B13630C191}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

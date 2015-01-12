@@ -24,15 +24,6 @@ namespace Config.Library.Configuration
         }
 
         /// <summary>
-        /// Return the configuration element that defines the notification mode for all emails
-        /// </summary>
-        [ConfigurationProperty("mode", IsRequired = true)]
-        public ModeElement Mode
-        {
-            get { return this["mode"] as ModeElement; }
-        }
-
-        /// <summary>
         /// Return the custom configuration collection containing a list of mailing elements
         /// </summary>
         /// <remarks>

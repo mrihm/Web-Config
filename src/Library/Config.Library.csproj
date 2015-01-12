@@ -42,12 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Reader\ConfigurationReader.cs" />
+    <Compile Include="Domain\Repository\IConfigurationReader.cs" />
+    <Compile Include="Configuration\Reader\MailingReader.cs" />
     <Compile Include="Configuration\Sections\OutputSection.cs" />
     <Compile Include="Configuration\Sections\SmtpSection.cs" />
     <Compile Include="Configuration\Reader\SmtpReader.cs" />
-    <Compile Include="Domain\MailingSettings.cs" />
-    <Compile Include="Domain\ScheduleSettings.cs" />
-    <Compile Include="Domain\SmtpSettings.cs" />
+    <Compile Include="Domain\Model\MailingSettings.cs" />
+    <Compile Include="Domain\Model\SmtpSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
